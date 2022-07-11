@@ -1,0 +1,47 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana
+    # image: grafana/grafana:8.2.5
+    container_name: grafana
+    ports:
+      - 3000
+    environment:
+      GF_PATHS_DATA: /var/lib/grafana
+      #GF_SECURITY_ADMIN_PASSWORD: kafka
+    volumes:
+      - './config/grafana/provisioning:/etc/grafana/provisioning'
+      - './config/grafana/dashboards:/var/lib/grafana/dashboards'
+    depends_on:
+      - graphite
+    networks:
+      - bobafett-net
+
+  graphite:
+    image: graphiteapp/graphite-statsd
+    container_name: graphite
+    restart: always
+    ports:
+      - 2003:2003
+    networks:
+      - bobafett-net
+  
+  caddy:
+    image: 'caddy:2.3.0'
+    ports:
+      - '3000:3000'
+      #- '9090:9090'
+    volumes:
+      - './config/caddy:/etc/caddy'
+    networks:
+      - bobafett-net
+
+
+networks:
+  bobafett-net:
+      driver: bridge
+      name: bobafett-net
+
+volumes:
+  grafana-volume:
+      driver: local

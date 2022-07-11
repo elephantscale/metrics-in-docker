@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>com.elephantscale</groupId>
+<artifactId>metrics-demo</artifactId>
+<packaging>jar</packaging>
+<version>1.0</version>
+<name>metrics-demo</name>
+
+<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
+</properties>
+
+<dependencies>
+        
+        <!-- ========= metrics ============ -->
+        <!-- https://mvnrepository.com/artifact/io.dropwizard.metrics/metrics-core -->
+        <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-core</artifactId>
+                <version>4.2.10</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/io.dropwizard.metrics/metrics-graphite -->
+        <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-graphite</artifactId>
+                <version>4.2.10</version>
+        </dependency>
+        
+
+
+        
+        <!-- =============== logging -->
+        
+        <!-- logging SLF4J and Log4J2 -->
+        <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.36</version>
+        </dependency>
+        <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>2.18.0</version>
+        </dependency>
+        <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.18.0</version>
+        </dependency>
+        
+</dependencies>
+
+<build>
+        <plugins>
+                <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.10.1</version>
+                        <configuration>
+                                <source>${java.version}</source>
+                                <target>${java.version}</target>
+                                <excludes>
+                                        <exclude>**/.ipynb_checkpoints/*</exclude>
+                                </excludes>
+                        </configuration>
+                </plugin>
+
+                <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <configuration>
+                                <!-- get all project dependencies -->
+                                <descriptorRefs>
+                                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                                <!-- MainClass in mainfest make a executable jar -->
+                                <archive>
+                                        <manifest>
+                                                <mainClass>KafkaProducerExample</mainClass>
+                                        </manifest>
+                                </archive>
+
+                        </configuration>
+                        <executions>
+                                <execution>
+                                        <id>make-assembly</id>
+                                        <!-- bind to the packaging phase -->
+                                        <phase>package</phase>
+                                        <goals>
+                                                <goal>single</goal>
+                                        </goals>
+                                </execution>
+                        </executions>
+                </plugin>
+                <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                                <execution>
+                                        <id>copy-dependencies</id>
+                                        <phase>package</phase>
+                                        <goals>
+                                                <goal>copy-dependencies</goal>
+                                        </goals>
+                                        <configuration>
+                                                <!-- <includeGroupIds>log4j</includeGroupIds>  -->
+                                                <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                                        </configuration>
+                                </execution>
+                        </executions>
+                </plugin>
+                
+        </plugins>
+</build>
+
+
+<organization>
+        <name>Elephant Scale</name>
+        <url>http://elephantscale.com</url>
+</organization>
+<scm>
+        <url>https://github.com/elephantscale/learning-metrics</url>
+</scm>
+</project>
