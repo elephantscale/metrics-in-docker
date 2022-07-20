@@ -13,8 +13,8 @@ public class MyMetricsRegistry {
 
 	public final static String APP_ID = "metrics-demo";
 
-	//public final static String GRAPHITE_HOST = "localhost"; // for running on host machine
-	public final static String GRAPHITE_HOST = "graphite"; // for running on docker container
+	public final static String GRAPHITE_HOST = "localhost"; // for running on host machine
+	//public final static String GRAPHITE_HOST = "graphite"; // for running on docker container
 	public final static int GRAPHITE_PORT = 2003;
 	public final static int REPORTING_INTERVAL = 10; // 10 secs
 
