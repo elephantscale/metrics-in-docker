@@ -4,6 +4,7 @@ services:
     image: grafana/grafana
     # image: grafana/grafana:8.2.5
     container_name: grafana
+    hostname: grafana
     ports:
       - 3000
     environment:
@@ -20,6 +21,7 @@ services:
   graphite:
     image: graphiteapp/graphite-statsd
     container_name: graphite
+    hostname: graphite
     restart: always
     ports:
       - 2003:2003
@@ -28,6 +30,8 @@ services:
   
   caddy:
     image: 'caddy:2.3.0'
+    container_name: caddy
+    hostname: caddy
     ports:
       - '3000:3000'
       #- '9090:9090'
